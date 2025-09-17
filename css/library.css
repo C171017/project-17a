@@ -1,0 +1,15 @@
+.library-container {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  
+  /* Standard box model */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.library-container h1 {
+  white-space: nowrap;
+  text-decoration: underline;
+}
