@@ -1,16 +1,10 @@
 import { useState, useEffect } from "react";
+import { useAppDispatch } from "../store/hooks";
+import { incrementFuckCount } from "../store/counterSlice";
 import "../../css/button.css";
 
-export default function Button(): JSX.Element {
-  const [count, setCount] = useState<number>(() => {
-    try {
-      const savedCount = localStorage.getItem('fuckCount');
-      return savedCount ? parseInt(savedCount, 10) : 0;
-    } catch (error) {
-      console.log('Error loading count from localStorage:', error);
-      return 0;
-    }
-  });
+export default function Button() {
+  const dispatch = useAppDispatch();
   const [cooldown, setCooldown] = useState<number>(0);
 
   useEffect(() => {
@@ -25,16 +19,7 @@ export default function Button(): JSX.Element {
 
   const handleClick = (): void => {
     if (cooldown === 0) {
-      setCount((c) => {
-        const newCount = c + 1;
-        // Save count to localStorage whenever it changes
-        try {
-          localStorage.setItem('fuckCount', newCount.toString());
-        } catch (error) {
-          console.log('Error saving count to localStorage:', error);
-        }
-        return newCount;
-      });
+      dispatch(incrementFuckCount());
       setCooldown(1);
     }
   };
