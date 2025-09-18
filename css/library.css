@@ -9,7 +9,24 @@
   border: none;
 }
 
-.library-container h1 {
-  white-space: nowrap;
-  text-decoration: underline;
+.square-box {
+  width: 120px;
+  height: 120px;
+  border: 2px solid #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 20px auto;
+  background-color: #fff;
+}
+
+.wood-text {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.count-text {
+  font-size: 16px;
+  font-weight: bold;
 }

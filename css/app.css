@@ -2,7 +2,7 @@
   position: relative;
   display: grid;
   grid-template-columns: 200px 1fr 200px;
-  grid-template-rows: auto auto;
+  grid-template-rows: 20vh 80vh;    /* Row 1: 20% viewport, Row 2: 80% viewport */
   gap: 0;
   height: 100vh;
 }
