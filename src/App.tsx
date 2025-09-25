@@ -5,6 +5,9 @@ import Button from "./components/Button";
 import Environment from "./components/Environment";
 import Text from "./components/Text";
 import Library from "./components/Library";
+import Masturbator from "./components/Masturbator";
+import Square from "./components/Square";
+import AxesGraph from "./components/AxesGraph";
 import "../css/app.css";
 
 function App() {
@@ -14,7 +17,12 @@ function App() {
         <Text />
         <Environment />
         <Library />
-        <Button />
+        <Square />
+        <div className="controls-wrapper" style={{ display: 'flex', gap: '10px' }}>
+          <Button />
+          <Masturbator />
+        </div>
+        <AxesGraph />
       </div>
     </Provider>
   );

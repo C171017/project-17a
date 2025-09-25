@@ -44,6 +44,9 @@
   margin: 0;
   padding: 0;
   border: none;
+  
+  /* Align button to the left */
+  text-align: left;
 }
 
 .cooldown-bar {
