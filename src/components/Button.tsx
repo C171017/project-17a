@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "../store/hooks";
-import { incrementFuckCount } from "../store/counterSlice";
+import { incrementBabyCount } from "../store/counterSlice";
 import "../../css/button.css";
 
 export default function Button() {
@@ -19,7 +19,7 @@ export default function Button() {
 
   const handleClick = (): void => {
     if (cooldown === 0) {
-      dispatch(incrementFuckCount());
+      dispatch(incrementBabyCount());
       setCooldown(1);
     }
   };
@@ -31,7 +31,7 @@ export default function Button() {
           className="cooldown-bar"
           style={{ transform: `scaleX(${cooldown})` }}
         />
-        fuck
+        Fuck
       </button>
     </div>
   );

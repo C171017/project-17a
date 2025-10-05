@@ -1,28 +1,28 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface CounterState {
-  fuckCount: number;
-  currencyCount: number;
+  babyCount: number;
+  fuckerCount: number;
   consumerSperm: number;
   producerSperm: number;
 }
 
 const initialState: CounterState = {
-  fuckCount: (() => {
+  babyCount: (() => {
     try {
-      const savedCount = localStorage.getItem('fuckCount');
+      const savedCount = localStorage.getItem('babyCount');
       return savedCount ? parseInt(savedCount, 10) : 0;
     } catch (error) {
       console.log('Error loading count from localStorage:', error);
       return 0;
     }
   })(),
-  currencyCount: (() => {
+  fuckerCount: (() => {
     try {
-      const savedCount = localStorage.getItem('currencyCount');
+      const savedCount = localStorage.getItem('fuckerCount');
       return savedCount ? parseInt(savedCount, 10) : 0;
     } catch (error) {
-      console.log('Error loading currency count from localStorage:', error);
+      console.log('Error loading fucker count from localStorage:', error);
       return 0;
     }
   })(),
@@ -50,37 +50,45 @@ const counterSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    incrementFuckCount: (state) => {
-      state.fuckCount += 1;
+    incrementBabyCount: (state) => {
+      state.babyCount += 1;
       // Save to localStorage whenever the count changes
       try {
-        localStorage.setItem('fuckCount', state.fuckCount.toString());
+        localStorage.setItem('babyCount', state.babyCount.toString());
       } catch (error) {
         console.log('Error saving count to localStorage:', error);
       }
     },
-    setFuckCount: (state, action: PayloadAction<number>) => {
-      state.fuckCount = Math.floor(Math.max(0, action.payload));
+    setBabyCount: (state, action: PayloadAction<number>) => {
+      state.babyCount = Math.floor(Math.max(0, action.payload));
       try {
-        localStorage.setItem('fuckCount', state.fuckCount.toString());
+        localStorage.setItem('babyCount', state.babyCount.toString());
       } catch (error) {
         console.log('Error saving count to localStorage:', error);
       }
     },
-    incrementCurrencyCount: (state) => {
-      state.currencyCount += 1;
+    addFucker: (state) => {
+      state.fuckerCount += 1;
       try {
-        localStorage.setItem('currencyCount', state.currencyCount.toString());
+        localStorage.setItem('fuckerCount', state.fuckerCount.toString());
       } catch (error) {
-        console.log('Error saving currency count to localStorage:', error);
+        console.log('Error saving fucker count to localStorage:', error);
       }
     },
-    setCurrencyCount: (state, action: PayloadAction<number>) => {
-      state.currencyCount = Math.floor(Math.max(0, action.payload));
+    removeFucker: (state) => {
+      state.fuckerCount = Math.max(0, state.fuckerCount - 1);
       try {
-        localStorage.setItem('currencyCount', state.currencyCount.toString());
+        localStorage.setItem('fuckerCount', state.fuckerCount.toString());
       } catch (error) {
-        console.log('Error saving currency count to localStorage:', error);
+        console.log('Error saving fucker count to localStorage:', error);
+      }
+    },
+    setFuckerCount: (state, action: PayloadAction<number>) => {
+      state.fuckerCount = Math.floor(Math.max(0, action.payload));
+      try {
+        localStorage.setItem('fuckerCount', state.fuckerCount.toString());
+      } catch (error) {
+        console.log('Error saving fucker count to localStorage:', error);
       }
     },
     incrementConsumerSperm: (state) => {
@@ -119,10 +127,11 @@ const counterSlice = createSlice({
 });
 
 export const { 
-  incrementFuckCount, 
-  setFuckCount, 
-  incrementCurrencyCount, 
-  setCurrencyCount,
+  incrementBabyCount, 
+  setBabyCount, 
+  addFucker,
+  removeFucker,
+  setFuckerCount,
   incrementConsumerSperm,
   setConsumerSperm,
   incrementProducerSperm,
