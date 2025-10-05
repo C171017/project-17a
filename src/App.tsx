@@ -7,7 +7,7 @@ import Text from "./components/Text";
 import Library from "./components/Library";
 import Masturbator from "./components/Masturbator";
 import Square from "./components/Square";
-import AxesGraph from "./components/AxesGraph";
+import Graph from "./components/Graph";
 import "../css/app.css";
 
 function App() {
@@ -18,11 +18,11 @@ function App() {
         <Environment />
         <Library />
         <Square />
-        <div className="controls-wrapper" style={{ display: 'flex', gap: '10px' }}>
+        <div className="controls-wrapper">
           <Button />
           <Masturbator />
         </div>
-        <AxesGraph />
+        <Graph />
       </div>
     </Provider>
   );

@@ -14,7 +14,8 @@
   height: 120px;
   border: 2px solid #000;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   padding: 10px;
   margin: 20px auto;
@@ -24,9 +25,11 @@
 .wood-text {
   font-size: 16px;
   font-weight: normal;
+  color: #000;
 }
 
 .count-text {
   font-size: 16px;
   font-weight: bold;
+  color: #000;
 }

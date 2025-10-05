@@ -1,4 +1,4 @@
-.axes-container {
+.graph-container {
   grid-column: 4 / 6;
   grid-row: 2;
   
@@ -8,7 +8,7 @@
   padding: 0;
 }
 
-.axes-svg {
+.graph-svg {
   display: block;
   margin: 0 auto;
   user-select: none; /* Prevent text selection during drag */

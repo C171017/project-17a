@@ -3,7 +3,8 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 interface CounterState {
   fuckCount: number;
   currencyCount: number;
-  squareValue: number;
+  consumerSperm: number;
+  producerSperm: number;
 }
 
 const initialState: CounterState = {
@@ -25,13 +26,22 @@ const initialState: CounterState = {
       return 0;
     }
   })(),
-  squareValue: (() => {
+  consumerSperm: (() => {
     try {
-      const savedValue = localStorage.getItem('squareValue');
-      return savedValue ? parseInt(savedValue, 10) : 25;
+      const savedValue = localStorage.getItem('consumerSperm');
+      return savedValue ? parseInt(savedValue, 10) : 10;
     } catch (error) {
-      console.log('Error loading square value from localStorage:', error);
-      return 25;
+      console.log('Error loading consumer sperm from localStorage:', error);
+      return 10;
+    }
+  })(),
+  producerSperm: (() => {
+    try {
+      const savedValue = localStorage.getItem('producerSperm');
+      return savedValue ? parseInt(savedValue, 10) : 15;
+    } catch (error) {
+      console.log('Error loading producer sperm from localStorage:', error);
+      return 15;
     }
   })(),
 };
@@ -50,7 +60,7 @@ const counterSlice = createSlice({
       }
     },
     setFuckCount: (state, action: PayloadAction<number>) => {
-      state.fuckCount = action.payload;
+      state.fuckCount = Math.floor(Math.max(0, action.payload));
       try {
         localStorage.setItem('fuckCount', state.fuckCount.toString());
       } catch (error) {
@@ -66,27 +76,43 @@ const counterSlice = createSlice({
       }
     },
     setCurrencyCount: (state, action: PayloadAction<number>) => {
-      state.currencyCount = action.payload;
+      state.currencyCount = Math.floor(Math.max(0, action.payload));
       try {
         localStorage.setItem('currencyCount', state.currencyCount.toString());
       } catch (error) {
         console.log('Error saving currency count to localStorage:', error);
       }
     },
-    incrementSquareValue: (state) => {
-      state.squareValue += 1;
+    incrementConsumerSperm: (state) => {
+      state.consumerSperm += 1;
       try {
-        localStorage.setItem('squareValue', state.squareValue.toString());
+        localStorage.setItem('consumerSperm', state.consumerSperm.toString());
       } catch (error) {
-        console.log('Error saving square value to localStorage:', error);
+        console.log('Error saving consumer sperm to localStorage:', error);
       }
     },
-    setSquareValue: (state, action: PayloadAction<number>) => {
-      state.squareValue = action.payload;
+    setConsumerSperm: (state, action: PayloadAction<number>) => {
+      state.consumerSperm = Math.floor(Math.max(0, action.payload));
       try {
-        localStorage.setItem('squareValue', state.squareValue.toString());
+        localStorage.setItem('consumerSperm', state.consumerSperm.toString());
       } catch (error) {
-        console.log('Error saving square value to localStorage:', error);
+        console.log('Error saving consumer sperm to localStorage:', error);
+      }
+    },
+    incrementProducerSperm: (state) => {
+      state.producerSperm += 1;
+      try {
+        localStorage.setItem('producerSperm', state.producerSperm.toString());
+      } catch (error) {
+        console.log('Error saving producer sperm to localStorage:', error);
+      }
+    },
+    setProducerSperm: (state, action: PayloadAction<number>) => {
+      state.producerSperm = Math.floor(Math.max(0, action.payload));
+      try {
+        localStorage.setItem('producerSperm', state.producerSperm.toString());
+      } catch (error) {
+        console.log('Error saving producer sperm to localStorage:', error);
       }
     },
   },
@@ -97,7 +123,9 @@ export const {
   setFuckCount, 
   incrementCurrencyCount, 
   setCurrencyCount,
-  incrementSquareValue,
-  setSquareValue
+  incrementConsumerSperm,
+  setConsumerSperm,
+  incrementProducerSperm,
+  setProducerSperm
 } = counterSlice.actions;
 export default counterSlice.reducer;

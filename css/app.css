@@ -10,6 +10,10 @@
 .controls-wrapper {
   grid-column: 2;
   grid-row: 2;
+  display: grid;
+  grid-template-rows: 1fr 1fr;  /* Two equal rows */
+  place-items: center;
+  height: 100%;
 }
 
 #root {

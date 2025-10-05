@@ -36,9 +36,6 @@
 }
 
 .button-container {
-  grid-column: 2;
-  grid-row: 2;
-  
   /* Standard box model */
   box-sizing: border-box;
   margin: 0;

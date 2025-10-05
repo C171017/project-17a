@@ -1,10 +1,31 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import "../../css/axes-graph.css";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { setConsumerSperm, setProducerSperm } from "../store/counterSlice";
+import "../../css/graph.css";
 
-export default function AxesGraph() {
+export default function Graph() {
   const svgRef = useRef<SVGSVGElement>(null);
-  const [currentPrice, setCurrentPrice] = useState(50); // Initial price value
+  const [currentPrice, setCurrentPrice] = useState(5); // Initial price value (integer)
+  const dispatch = useAppDispatch();
+  const consumerSperm = useAppSelector((state) => state.counter.consumerSperm);
+  const producerSperm = useAppSelector((state) => state.counter.producerSperm);
+
+  // Calculate the area value (baby * sperm) - using integer values
+  const quantity = Math.floor((10 - currentPrice) / 1.2);
+  const areaValue = quantity * currentPrice;
+  const tradeAmount = areaValue;
+  
+  // Check if there's enough consumer sperm for the trade
+  const canTrade = consumerSperm >= tradeAmount;
+
+  // Trade function
+  const handleTrade = () => {
+    if (canTrade) {
+      dispatch(setConsumerSperm(consumerSperm - tradeAmount));
+      dispatch(setProducerSperm(producerSperm + tradeAmount));
+    }
+  };
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -16,17 +37,17 @@ export default function AxesGraph() {
 
     // Create scales for better data management
     const xScale = d3.scaleLinear()
-      .domain([0, 120]) // Shorter quantity domain (0 to 120)
-      .range([50, 300]); // Shorter SVG pixel range
+      .domain([0, 8]) // Integer quantity domain (0 to 8)
+      .range([50, 300]); // Same SVG pixel range
 
     const yScale = d3.scaleLinear()
-      .domain([0, 100]) // Price domain (0 to 100)
+      .domain([0, 10]) // Integer price domain (0 to 10)
       .range([270, 20]); // Extended SVG pixel range (inverted for SVG coordinates)
 
-    // Create demand curve data points
-    const demandData = d3.range(0, 121, 1).map(quantity => ({
+    // Create demand curve data points - using integer steps
+    const demandData = d3.range(0, 9, 1).map(quantity => ({
       x: quantity,
-      y: Math.max(0, 100 - quantity * 1.2) // Even steeper downward sloping demand curve: P = 100 - 1.2Q
+      y: Math.max(0, 10 - quantity * 1.2) // P = 10 - 1.2Q
     }));
 
     // Draw Y-axis (Price axis)
@@ -80,11 +101,20 @@ export default function AxesGraph() {
       .style("cursor", "grab")
       .classed("controllable-dot", true);
 
+    // Create semi-transparent grey rectangle under the orange line
+    const areaRectangle = svg.append("rect")
+      .attr("x", 50)
+      .attr("y", yScale(currentPrice))
+      .attr("width", xScale(quantity) - 50)
+      .attr("height", yScale(0) - yScale(currentPrice))
+      .attr("fill", "rgba(128, 128, 128, 0.3)")
+      .attr("stroke", "none");
+
     // Create connecting line from y-axis to curve
     const connectingLine = svg.append("line")
       .attr("x1", 50)
       .attr("y1", yScale(currentPrice))
-      .attr("x2", xScale((100 - currentPrice) / 1.2))
+      .attr("x2", xScale(quantity))
       .attr("y2", yScale(currentPrice))
       .attr("stroke", "#ff4444")
       .attr("stroke-width", 2)
@@ -92,7 +122,7 @@ export default function AxesGraph() {
 
     // Create dot on the demand curve
     const curveDot = svg.append("circle")
-      .attr("cx", xScale((100 - currentPrice) / 1.2))
+      .attr("cx", xScale(quantity))
       .attr("cy", yScale(currentPrice))
       .attr("r", 6)
       .attr("fill", "#ff4444")
@@ -126,9 +156,10 @@ export default function AxesGraph() {
           .classed("dragging", true);
       })
       .on("drag", function(event) {
-        // Convert mouse position to price value (inverted for y-axis)
-        const price = Math.max(0, Math.min(100, yScale.invert(event.y)));
-        const quantity = Math.max(0, (100 - price) / 1.2);
+        // Convert mouse position to price value (inverted for y-axis) and snap to integer
+        const rawPrice = yScale.invert(event.y);
+        const price = Math.max(0, Math.min(10, Math.round(rawPrice)));
+        const quantity = Math.floor((10 - price) / 1.2);
         
         // Update state
         setCurrentPrice(price);
@@ -136,6 +167,12 @@ export default function AxesGraph() {
         // Update dot position on y-axis
         d3.select(this)
           .attr("cy", yScale(price));
+
+        // Update area rectangle
+        areaRectangle
+          .attr("y", yScale(price))
+          .attr("width", xScale(quantity) - 50)
+          .attr("height", yScale(0) - yScale(price));
 
         // Update connecting line
         connectingLine
@@ -167,16 +204,34 @@ export default function AxesGraph() {
   }, [currentPrice]);
 
   return (
-    <div className="axes-container">
+    <div className="graph-container">
       <svg 
         ref={svgRef}
         width="100%" 
         height="300" 
-        className="axes-svg" 
+        className="graph-svg" 
         viewBox="0 0 350 300"
       />
       <div style={{ textAlign: 'center', marginTop: '10px', fontSize: '14px' }}>
-        Baby: {((100 - currentPrice) / 1.2).toFixed(1)} | Sperm: {currentPrice.toFixed(1)}
+        Baby: {quantity} | Sperm: {currentPrice} | Area: {areaValue}
+      </div>
+      <div style={{ textAlign: 'center', marginTop: '10px' }}>
+        <button 
+          onClick={handleTrade}
+          disabled={!canTrade}
+          style={{
+            padding: '8px 16px',
+            fontSize: '14px',
+            backgroundColor: canTrade ? '#4CAF50' : '#cccccc',
+            color: canTrade ? 'white' : '#666666',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: canTrade ? 'pointer' : 'not-allowed',
+            transition: 'background-color 0.3s'
+          }}
+        >
+          Trade ({tradeAmount})
+        </button>
       </div>
     </div>
   );
