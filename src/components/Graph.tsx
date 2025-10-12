@@ -1,30 +1,67 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { setConsumerSperm, setProducerSperm } from "../store/counterSlice";
+import { setConsumerSperm, setProducerSperm, setBabyCount } from "../store/counterSlice";
 import "../../css/graph.css";
+import "../../css/button.css";
 
 export default function Graph() {
   const svgRef = useRef<SVGSVGElement>(null);
   const [currentPrice, setCurrentPrice] = useState(5); // Initial price value (integer)
+  const [cooldown, setCooldown] = useState<number>(0);
+  const [autoTrade, setAutoTrade] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const consumerSperm = useAppSelector((state) => state.counter.consumerSperm);
   const producerSperm = useAppSelector((state) => state.counter.producerSperm);
+  const babyCount = useAppSelector((state) => state.counter.babyCount);
 
   // Calculate the area value (baby * sperm) - using integer values
   const quantity = Math.floor((10 - currentPrice) / 1.2);
   const areaValue = quantity * currentPrice;
   const tradeAmount = areaValue;
   
-  // Check if there's enough consumer sperm for the trade
-  const canTrade = consumerSperm >= tradeAmount;
+  // Check if there's enough consumer sperm and babies for the trade
+  const canTrade = consumerSperm >= tradeAmount && babyCount >= quantity && cooldown === 0;
+
+  // Cooldown timer effect
+  useEffect(() => {
+    let interval: number;
+    if (cooldown > 0) {
+      interval = window.setInterval(() => {
+        setCooldown((prev) => Math.max(prev - 0.02, 0));
+      }, 20);
+    }
+    return () => clearInterval(interval);
+  }, [cooldown]);
+
+  // Auto trade effect
+  useEffect(() => {
+    let interval: number;
+    if (autoTrade && cooldown === 0 && canTrade) {
+      interval = window.setInterval(() => {
+        if (cooldown === 0 && canTrade) {
+          dispatch(setConsumerSperm(consumerSperm - tradeAmount));
+          dispatch(setProducerSperm(producerSperm + tradeAmount));
+          dispatch(setBabyCount(babyCount - quantity));
+          setCooldown(1);
+        }
+      }, 1000); // Auto trade every 1 second
+    }
+    return () => clearInterval(interval);
+  }, [autoTrade, cooldown, canTrade, consumerSperm, producerSperm, babyCount, tradeAmount, quantity, dispatch]);
 
   // Trade function
   const handleTrade = () => {
     if (canTrade) {
       dispatch(setConsumerSperm(consumerSperm - tradeAmount));
       dispatch(setProducerSperm(producerSperm + tradeAmount));
+      dispatch(setBabyCount(babyCount - quantity));
+      setCooldown(1);
     }
+  };
+
+  const handleAutoToggle = () => {
+    setAutoTrade(!autoTrade);
   };
 
   useEffect(() => {
@@ -215,23 +252,32 @@ export default function Graph() {
       <div style={{ textAlign: 'center', marginTop: '10px', fontSize: '14px' }}>
         Baby: {quantity} | Sperm: {currentPrice} | Area: {areaValue}
       </div>
-      <div style={{ textAlign: 'center', marginTop: '10px' }}>
-        <button 
-          onClick={handleTrade}
-          disabled={!canTrade}
-          style={{
-            padding: '8px 16px',
-            fontSize: '14px',
-            backgroundColor: canTrade ? '#4CAF50' : '#cccccc',
-            color: canTrade ? 'white' : '#666666',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: canTrade ? 'pointer' : 'not-allowed',
-            transition: 'background-color 0.3s'
-          }}
-        >
-          Trade ({tradeAmount})
-        </button>
+      <div style={{ textAlign: 'center', marginTop: '10px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+        <div className="button-container">
+          <button 
+            className="button"
+            onClick={handleTrade}
+            disabled={cooldown > 0}
+          >
+            <div
+              className="cooldown-bar"
+              style={{ transform: `scaleX(${cooldown})` }}
+            />
+            Trade
+          </button>
+        </div>
+        <div className="button-container">
+          <button 
+            className="button"
+            onClick={handleAutoToggle}
+            style={{
+              backgroundColor: autoTrade ? '#4CAF50' : '#cccccc',
+              color: autoTrade ? 'white' : '#666666'
+            }}
+          >
+            Auto {autoTrade ? 'ON' : 'OFF'}
+          </button>
+        </div>
       </div>
     </div>
   );

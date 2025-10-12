@@ -29,19 +29,19 @@ const initialState: CounterState = {
   consumerSperm: (() => {
     try {
       const savedValue = localStorage.getItem('consumerSperm');
-      return savedValue ? parseInt(savedValue, 10) : 10;
+      return savedValue ? parseInt(savedValue, 10) : 100;
     } catch (error) {
       console.log('Error loading consumer sperm from localStorage:', error);
-      return 10;
+      return 100;
     }
   })(),
   producerSperm: (() => {
     try {
       const savedValue = localStorage.getItem('producerSperm');
-      return savedValue ? parseInt(savedValue, 10) : 15;
+      return savedValue ? parseInt(savedValue, 10) : 0;
     } catch (error) {
       console.log('Error loading producer sperm from localStorage:', error);
-      return 15;
+      return 0;
     }
   })(),
 };
@@ -126,13 +126,13 @@ const counterSlice = createSlice({
     resetAllValues: (state) => {
       state.babyCount = 0;
       state.fuckerCount = 0;
-      state.consumerSperm = 10;
-      state.producerSperm = 15;
+      state.consumerSperm = 100;
+      state.producerSperm = 0;
       try {
         localStorage.setItem('babyCount', '0');
         localStorage.setItem('fuckerCount', '0');
-        localStorage.setItem('consumerSperm', '10');
-        localStorage.setItem('producerSperm', '15');
+        localStorage.setItem('consumerSperm', '100');
+        localStorage.setItem('producerSperm', '0');
       } catch (error) {
         console.log('Error saving reset values to localStorage:', error);
       }

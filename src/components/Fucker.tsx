@@ -17,10 +17,7 @@ export default function Fucker() {
   return (
     <div className="fucker-container">
       <div className="fucker-info">
-        <span className="fucker-title">Fuckers: {fuckerCount}</span>
-        <span className="fucker-production">Production: {fuckerCount} babies/sec</span>
-        <span className="fucker-cost">Cost: {fuckerCount} producer sperm/sec</span>
-        <span className="fucker-conversion">Conversion: {fuckerCount} consumer sperm/sec</span>
+        <span className="fucker-title">Fucker: {fuckerCount} </span>
         <span className="fucker-status">
           Status: {producerSperm >= fuckerCount ? 'Active' : 'Insufficient Sperm'}
         </span>

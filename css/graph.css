@@ -2,6 +2,9 @@
   grid-column: 4 / 6;
   grid-row: 2;
   
+  /* Center everything like controls-wrapper */
+  place-items: center;
+  
   /* Standard box model */
   box-sizing: border-box;
   margin: 0;
