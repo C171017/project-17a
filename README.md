@@ -9,4 +9,4 @@ And here are the current sections of the web game
 1 leftmost text section:
 Responsible for displaying the text that describe the event and behavior etc .
 
-2.
+2. the Environment 
