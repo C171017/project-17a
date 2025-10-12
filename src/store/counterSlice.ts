@@ -123,6 +123,20 @@ const counterSlice = createSlice({
         console.log('Error saving producer sperm to localStorage:', error);
       }
     },
+    resetAllValues: (state) => {
+      state.babyCount = 0;
+      state.fuckerCount = 0;
+      state.consumerSperm = 10;
+      state.producerSperm = 15;
+      try {
+        localStorage.setItem('babyCount', '0');
+        localStorage.setItem('fuckerCount', '0');
+        localStorage.setItem('consumerSperm', '10');
+        localStorage.setItem('producerSperm', '15');
+      } catch (error) {
+        console.log('Error saving reset values to localStorage:', error);
+      }
+    },
   },
 });
 
@@ -135,6 +149,7 @@ export const {
   incrementConsumerSperm,
   setConsumerSperm,
   incrementProducerSperm,
-  setProducerSperm
+  setProducerSperm,
+  resetAllValues
 } = counterSlice.actions;
 export default counterSlice.reducer;

@@ -6,7 +6,30 @@ At current stage, the game is trying to incoporate some basic econ concepts into
 
 And here are the current sections of the web game
 
-1 leftmost text section:
+1 Leftmost text section:(R1,2 C1)
 Responsible for displaying the text that describe the event and behavior etc .
 
-2. the Environment 
+2. The environment section (R1 C2,3)
+
+3. Control section (R2 C2)
+A control center where user can execute actions like
+
+
+
+
+------------------------------------------------------------------
+Game logic
+
+User fuck > create more baby
+
+
+
+
+-----------------------------------------------------------------
+Key values:
+
+Consumer Sperm
+Producer Sperm 
+Baby
+Fucker
+

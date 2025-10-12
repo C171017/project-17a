@@ -11,6 +11,7 @@ import Library from "./components/Library";
 import Fucker from "./components/Fucker";
 import Square from "./components/Square";
 import Graph from "./components/Graph";
+import ResetButton from "./components/ResetButton";
 import "../css/app.css";
 
 function AppContent() {
@@ -46,6 +47,9 @@ function AppContent() {
       <Environment />
       <Library />
       <Square />
+      <div className="reset-wrapper">
+        <ResetButton />
+      </div>
       <div className="controls-wrapper">
         <Button />
         <Fucker />
