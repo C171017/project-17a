@@ -33,3 +33,9 @@ Producer Sperm
 Baby
 Fucker
 
+
+------------------------------------------------------------------
+Current poblem to work on:
+
+Need to establish a mechanism that allows the supply curve to be concretized and intuitively visualized.
+

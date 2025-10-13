@@ -5,6 +5,8 @@ interface CounterState {
   fuckerCount: number;
   consumerSperm: number;
   producerSperm: number;
+  universalTimerInterval: number;
+  isPaused: boolean;
 }
 
 const initialState: CounterState = {
@@ -29,10 +31,10 @@ const initialState: CounterState = {
   consumerSperm: (() => {
     try {
       const savedValue = localStorage.getItem('consumerSperm');
-      return savedValue ? parseInt(savedValue, 10) : 100;
+      return savedValue ? parseInt(savedValue, 10) : 1000;
     } catch (error) {
       console.log('Error loading consumer sperm from localStorage:', error);
-      return 100;
+      return 1000;
     }
   })(),
   producerSperm: (() => {
@@ -42,6 +44,24 @@ const initialState: CounterState = {
     } catch (error) {
       console.log('Error loading producer sperm from localStorage:', error);
       return 0;
+    }
+  })(),
+  universalTimerInterval: (() => {
+    try {
+      const savedValue = localStorage.getItem('universalTimerInterval');
+      return savedValue ? parseInt(savedValue, 10) : 1000;
+    } catch (error) {
+      console.log('Error loading universal timer interval from localStorage:', error);
+      return 1000;
+    }
+  })(),
+  isPaused: (() => {
+    try {
+      const savedValue = localStorage.getItem('isPaused');
+      return savedValue ? JSON.parse(savedValue) : false;
+    } catch (error) {
+      console.log('Error loading isPaused from localStorage:', error);
+      return false;
     }
   })(),
 };
@@ -67,24 +87,8 @@ const counterSlice = createSlice({
         console.log('Error saving count to localStorage:', error);
       }
     },
-    addFucker: (state) => {
-      state.fuckerCount += 1;
-      try {
-        localStorage.setItem('fuckerCount', state.fuckerCount.toString());
-      } catch (error) {
-        console.log('Error saving fucker count to localStorage:', error);
-      }
-    },
-    removeFucker: (state) => {
-      state.fuckerCount = Math.max(0, state.fuckerCount - 1);
-      try {
-        localStorage.setItem('fuckerCount', state.fuckerCount.toString());
-      } catch (error) {
-        console.log('Error saving fucker count to localStorage:', error);
-      }
-    },
     setFuckerCount: (state, action: PayloadAction<number>) => {
-      state.fuckerCount = Math.floor(Math.max(0, action.payload));
+      state.fuckerCount = Math.floor(Math.max(0, Math.min(10, action.payload)));
       try {
         localStorage.setItem('fuckerCount', state.fuckerCount.toString());
       } catch (error) {
@@ -123,16 +127,36 @@ const counterSlice = createSlice({
         console.log('Error saving producer sperm to localStorage:', error);
       }
     },
+    setUniversalTimerInterval: (state, action: PayloadAction<number>) => {
+      state.universalTimerInterval = Math.max(100, Math.min(5000, action.payload));
+      try {
+        localStorage.setItem('universalTimerInterval', state.universalTimerInterval.toString());
+      } catch (error) {
+        console.log('Error saving universal timer interval to localStorage:', error);
+      }
+    },
+    setIsPaused: (state, action: PayloadAction<boolean>) => {
+      state.isPaused = action.payload;
+      try {
+        localStorage.setItem('isPaused', JSON.stringify(state.isPaused));
+      } catch (error) {
+        console.log('Error saving isPaused to localStorage:', error);
+      }
+    },
     resetAllValues: (state) => {
       state.babyCount = 0;
       state.fuckerCount = 0;
-      state.consumerSperm = 100;
+      state.consumerSperm = 1000;
       state.producerSperm = 0;
+      state.universalTimerInterval = 1000;
+      state.isPaused = false;
       try {
         localStorage.setItem('babyCount', '0');
         localStorage.setItem('fuckerCount', '0');
-        localStorage.setItem('consumerSperm', '100');
+        localStorage.setItem('consumerSperm', '1000');
         localStorage.setItem('producerSperm', '0');
+        localStorage.setItem('universalTimerInterval', '1000');
+        localStorage.setItem('isPaused', 'false');
       } catch (error) {
         console.log('Error saving reset values to localStorage:', error);
       }
@@ -143,13 +167,13 @@ const counterSlice = createSlice({
 export const { 
   incrementBabyCount, 
   setBabyCount, 
-  addFucker,
-  removeFucker,
   setFuckerCount,
   incrementConsumerSperm,
   setConsumerSperm,
   incrementProducerSperm,
   setProducerSperm,
+  setUniversalTimerInterval,
+  setIsPaused,
   resetAllValues
 } = counterSlice.actions;
 export default counterSlice.reducer;
