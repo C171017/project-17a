@@ -1,14 +1,24 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as d3 from "d3";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { setFuckerCount, setCurrentPrice } from "../store/counterSlice";
 import "../../css/graph.css";
 
 export default function Graph() {
   const svgRef = useRef<SVGSVGElement>(null);
-  const [currentPrice, setCurrentPrice] = useState(5); // Initial price value (integer)
+  const dispatch = useAppDispatch();
+  const currentPrice = useAppSelector((state) => state.counter.currentPrice);
+  const fuckerCount = useAppSelector((state) => state.counter.fuckerCount);
+  const producerSperm = useAppSelector((state) => state.counter.producerSperm);
 
   // Calculate the area value (baby * sperm) - using integer values
   const quantity = Math.floor((10 - currentPrice) / 1.2);
   const areaValue = quantity * currentPrice;
+
+  // Calculate fucker-related values
+  const wage = fuckerCount; // Wage = Q (linear relationship)
+  const totalCost = (fuckerCount * (fuckerCount + 1)) / 2; // Sum of 1+2+3+...+n
+  const status = producerSperm >= totalCost ? 'Active' : 'Insufficient Sperm';
 
 
   useEffect(() => {
@@ -32,6 +42,12 @@ export default function Graph() {
     const demandData = d3.range(0, 9, 1).map(quantity => ({
       x: quantity,
       y: Math.max(0, 10 - quantity * 1.2) // P = 10 - 1.2Q
+    }));
+
+    // Create supply curve data points - Wage = Q (linear)
+    const supplyData = d3.range(0, 11, 1).map(quantity => ({
+      x: quantity,
+      y: quantity // Wage = Q
     }));
 
     // Draw Y-axis (Price axis)
@@ -65,6 +81,14 @@ export default function Graph() {
       .attr("stroke-width", 3)
       .attr("fill", "none");
 
+    // Draw supply curve using the same line generator
+    svg.append("path")
+      .datum(supplyData)
+      .attr("d", line)
+      .attr("stroke", "#ff8800")
+      .attr("stroke-width", 3)
+      .attr("fill", "none");
+
     // Add arrow heads
     svg.append("polygon")
       .attr("points", "50,20 45,30 55,30")
@@ -74,8 +98,8 @@ export default function Graph() {
       .attr("points", "300,270 290,265 290,275")
       .attr("fill", "#333");
 
-    // Create draggable dot on y-axis
-    const dot = svg.append("circle")
+    // Create draggable dot on y-axis (price control)
+    const priceDot = svg.append("circle")
       .attr("cx", 50)
       .attr("cy", yScale(currentPrice))
       .attr("r", 8)
@@ -85,17 +109,20 @@ export default function Graph() {
       .style("cursor", "grab")
       .classed("controllable-dot", true);
 
-    // Create semi-transparent grey rectangle under the orange line
-    const areaRectangle = svg.append("rect")
-      .attr("x", 50)
-      .attr("y", yScale(currentPrice))
-      .attr("width", xScale(quantity) - 50)
-      .attr("height", yScale(0) - yScale(currentPrice))
-      .attr("fill", "rgba(128, 128, 128, 0.3)")
-      .attr("stroke", "none");
+    // Create draggable dot on x-axis (fucker count control)
+    const fuckerDot = svg.append("circle")
+      .attr("cx", xScale(fuckerCount))
+      .attr("cy", 270)
+      .attr("r", 8)
+      .attr("fill", "#00aa44")
+      .attr("stroke", "#008833")
+      .attr("stroke-width", 2)
+      .style("cursor", "grab")
+      .classed("controllable-dot", true);
 
-    // Create connecting line from y-axis to curve
-    const connectingLine = svg.append("line")
+
+    // Create connecting line from y-axis to demand curve
+    const demandConnectingLine = svg.append("line")
       .attr("x1", 50)
       .attr("y1", yScale(currentPrice))
       .attr("x2", xScale(quantity))
@@ -105,12 +132,31 @@ export default function Graph() {
       .attr("stroke-dasharray", "5,5");
 
     // Create dot on the demand curve
-    const curveDot = svg.append("circle")
+    const demandCurveDot = svg.append("circle")
       .attr("cx", xScale(quantity))
       .attr("cy", yScale(currentPrice))
       .attr("r", 6)
       .attr("fill", "#ff4444")
       .attr("stroke", "#cc0000")
+      .attr("stroke-width", 2);
+
+    // Create horizontal connecting line from x-axis to supply curve
+    const supplyConnectingLine = svg.append("line")
+      .attr("x1", xScale(fuckerCount))
+      .attr("y1", 270)
+      .attr("x2", xScale(fuckerCount))
+      .attr("y2", yScale(wage))
+      .attr("stroke", "#00aa44")
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "5,5");
+
+    // Create dot on the supply curve
+    const supplyCurveDot = svg.append("circle")
+      .attr("cx", xScale(fuckerCount))
+      .attr("cy", yScale(wage))
+      .attr("r", 6)
+      .attr("fill", "#00aa44")
+      .attr("stroke", "#008833")
       .attr("stroke-width", 2);
 
     // Add labels
@@ -132,8 +178,8 @@ export default function Graph() {
       .attr("fill", "#333")
       .text("Baby");
 
-    // Create D3 drag behavior
-    const drag = d3.drag<SVGCircleElement, unknown, unknown>()
+    // Create D3 drag behavior for price control (y-axis)
+    const priceDrag = d3.drag<SVGCircleElement, unknown, unknown>()
       .on("start", function() {
         d3.select(this)
           .style("cursor", "grabbing")
@@ -146,26 +192,20 @@ export default function Graph() {
         const quantity = Math.floor((10 - price) / 1.2);
         
         // Update state
-        setCurrentPrice(price);
+        dispatch(setCurrentPrice(price));
         
         // Update dot position on y-axis
         d3.select(this)
           .attr("cy", yScale(price));
 
-        // Update area rectangle
-        areaRectangle
-          .attr("y", yScale(price))
-          .attr("width", xScale(quantity) - 50)
-          .attr("height", yScale(0) - yScale(price));
-
         // Update connecting line
-        connectingLine
+        demandConnectingLine
           .attr("y1", yScale(price))
           .attr("x2", xScale(quantity))
           .attr("y2", yScale(price));
 
         // Update curve dot with smooth transition
-        curveDot
+        demandCurveDot
           .transition()
           .duration(50)
           .attr("cx", xScale(quantity))
@@ -177,15 +217,55 @@ export default function Graph() {
           .classed("dragging", false);
       });
 
-    // Apply drag behavior to the dot
-    dot.call(drag);
+    // Create D3 drag behavior for fucker count control (x-axis)
+    const fuckerDrag = d3.drag<SVGCircleElement, unknown, unknown>()
+      .on("start", function() {
+        d3.select(this)
+          .style("cursor", "grabbing")
+          .classed("dragging", true);
+      })
+      .on("drag", function(event) {
+        // Convert mouse position to fucker count and snap to integer
+        const rawCount = xScale.invert(event.x);
+        const count = Math.max(0, Math.min(10, Math.round(rawCount)));
+        const wage = count;
+        
+        // Update Redux state
+        dispatch(setFuckerCount(count));
+        
+        // Update dot position on x-axis
+        d3.select(this)
+          .attr("cx", xScale(count));
+
+        // Update horizontal connecting line
+        supplyConnectingLine
+          .attr("x1", xScale(count))
+          .attr("x2", xScale(count))
+          .attr("y2", yScale(wage));
+
+        // Update supply curve dot with smooth transition
+        supplyCurveDot
+          .transition()
+          .duration(50)
+          .attr("cx", xScale(count))
+          .attr("cy", yScale(wage));
+      })
+      .on("end", function() {
+        d3.select(this)
+          .style("cursor", "grab")
+          .classed("dragging", false);
+      });
+
+    // Apply drag behaviors to the dots
+    priceDot.call(priceDrag);
+    fuckerDot.call(fuckerDrag);
 
     // Cleanup function
     return () => {
       svg.selectAll("*").remove();
     };
 
-  }, [currentPrice]);
+  }, [currentPrice, fuckerCount, producerSperm]);
 
   return (
     <div className="graph-container">
@@ -198,6 +278,9 @@ export default function Graph() {
       />
       <div style={{ textAlign: 'center', marginTop: '10px', fontSize: '14px' }}>
         Baby: {quantity} | Sperm: {currentPrice} | Area: {areaValue}
+      </div>
+      <div style={{ textAlign: 'center', marginTop: '5px', fontSize: '14px' }}>
+        Fuckers: {fuckerCount} | Wage: {wage} | Total Cost: {totalCost} | Status: {status}
       </div>
     </div>
   );
