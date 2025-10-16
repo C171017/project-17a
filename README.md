@@ -54,17 +54,17 @@ css/                    # Styling files
 - **Fuckers**: Automated production units (0-10 max)
 
 ### Economic Model
-- **Demand Curve**: P = 10 - 1.2Q (Price vs Quantity)
-- **Supply Curve**: Wage = Q (Linear relationship)
+- **Demand Curve**: y = -x + 10 (Price vs Quantity)
+- **Supply Curve**: y = x (Linear relationship)
 - **Trading System**: Automatic conversion between resources
 - **Cost Structure**: Linear cost progression for Fuckers (1+2+3+...+n)
+- **Graph Visualization**: Dynamic supply/demand curves with responsive scaling
 
 ### Interactive Features
 - **Manual Production**: Click button to create babies (with cooldown)
 - **Automated Production**: Fuckers automatically produce babies
 - **Resource Management**: Visual representation of sperm distribution
 - **Timer Controls**: Adjustable speed and pause functionality
-- **Graph Visualization**: Basic coordinate system for future supply/demand curves
 
 ## 🎮 Game Controls
 
@@ -75,9 +75,12 @@ css/                    # Styling files
 - **Timer Slider**: Adjust game speed (100ms - 5000ms)
 
 ### Graph Visualization
-- **Coordinate System**: X and Y axes intersecting at bottom-left corner
-- **Responsive Design**: Scales proportionally with grid cell size
-- **SVG Rendering**: Built with D3.js for future interactive features
+- **Dynamic Supply/Demand Curves**: Real-time rendering of economic relationships
+- **First Quadrant Focus**: All curves displayed for positive economic values only
+- **Responsive Scaling**: Automatically adjusts to container size with dynamic tick generation
+- **Positioning Rules**: Demand intercepts positioned at 10% from top/right edges
+- **Shared Scales**: Consistent units across both curves for accurate comparison
+- **Interactive Design**: Built with D3.js for future Redux-driven parameter updates
 
 ## 🔧 Development
 
@@ -144,19 +147,20 @@ The interface uses a CSS Grid layout with 5 columns and 2 rows:
 
 ## 🎯 Current Development Status
 
-The game is in active development with focus on:
-- Economic concept integration
-- Basic graph visualization foundation (axes implemented)
-- Automated production systems
-- Resource management mechanics
+The game features a complete economic simulation with:
+- **Dynamic Graph Visualization**: Fully implemented supply/demand curves with responsive scaling
+- **Economic Modeling**: Real-time curve rendering with mathematical accuracy
+- **Automated Production Systems**: Fuckers with linear cost progression
+- **Resource Management**: Visual sperm distribution and trading mechanics
+- **Interactive Controls**: Manual production, timer controls, and reset functionality
 
 ## 🚧 Known Issues & Future Work
 
-- Interactive supply/demand curves not yet implemented
-- Price and quantity controls need to be added to graph
-- Additional economic concepts to be integrated
-- Enhanced UI/UX improvements
-- More complex trading mechanics
+- **Redux Integration**: Connect graph curves to dynamic Redux state for real-time parameter updates
+- **Interactive Controls**: Add price and quantity controls to manipulate curve parameters
+- **Enhanced Economic Concepts**: Integrate more complex economic models and market dynamics
+- **UI/UX Improvements**: Enhanced visual feedback and user interaction patterns
+- **Advanced Trading Mechanics**: More sophisticated resource conversion and market simulation
 
 ## 📝 License
 
