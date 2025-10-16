@@ -4,7 +4,9 @@
   grid-template-columns: 20vw 20vw 20vw 20vw 20vw;
   grid-template-rows: 1fr 1fr;    
   gap: 0;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .reset-wrapper {
@@ -14,6 +16,10 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
 }
 
 .controls-wrapper {
@@ -23,16 +29,20 @@
   grid-template-rows: 1fr 1fr;  /* Two equal rows */
   place-items: center;
   height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
 }
 
 #root {
-  /* max-width: 1280px; */
-  /* margin: 0 auto; */
-  /* padding: 2rem; */
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
   text-align: center;
-
-  /*LAYOUT TYPE*/   
   display: grid;
+  box-sizing: border-box;
 }
 
 /* Fucker component styling */
@@ -75,6 +85,7 @@
   outline: none;
   border-radius: 10px;
   -webkit-appearance: none;
+  appearance: none;
 }
 
 .fucker-slider::-webkit-slider-thumb {

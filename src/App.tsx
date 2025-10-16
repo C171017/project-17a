@@ -3,15 +3,15 @@ import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { useAppSelector, useAppDispatch } from './store/hooks';
-import { incrementBabyCount, setProducerSperm, setConsumerSperm, setBabyCount } from './store/counterSlice';
+import { incrementBabyCount, setProducerSperm, setConsumerSperm } from './store/counterSlice';
 import Button from "./components/Button";
 import Environment from "./components/Environment";
 import Text from "./components/Text";
 import Library from "./components/Library";
 import Square from "./components/Square";
-import Graph from "./components/Graph";
 import ResetButton from "./components/ResetButton";
 import UniversalTimerControls from "./components/UniversalTimerControls";
+import Graph from "./components/Graph";
 import "../css/app.css";
 
 function AppContent() {
@@ -20,7 +20,6 @@ function AppContent() {
   const producerSperm = useAppSelector((state) => state.counter.producerSperm);
   const consumerSperm = useAppSelector((state) => state.counter.consumerSperm);
   const babyCount = useAppSelector((state) => state.counter.babyCount);
-  const currentPrice = useAppSelector((state) => state.counter.currentPrice);
   const universalTimerInterval = useAppSelector((state) => state.counter.universalTimerInterval);
   const isPaused = useAppSelector((state) => state.counter.isPaused);
 
@@ -45,24 +44,10 @@ function AppContent() {
           dispatch(setConsumerSperm(consumerSperm + totalCost));
         }
       }
-
-      // Auto trade logic (moved from Graph.tsx)
-      const quantity = Math.floor((10 - currentPrice) / 1.2);
-      const areaValue = quantity * currentPrice;
-      const tradeAmount = areaValue;
-      
-      // Check if there's enough consumer sperm and babies for the trade
-      const canTrade = consumerSperm >= tradeAmount && babyCount >= quantity;
-      
-      if (canTrade) {
-        dispatch(setConsumerSperm(consumerSperm - tradeAmount));
-        dispatch(setProducerSperm(producerSperm + tradeAmount));
-        dispatch(setBabyCount(babyCount - quantity));
-      }
     }, universalTimerInterval);
 
     return () => clearInterval(interval);
-  }, [fuckerCount, babyCount, currentPrice, universalTimerInterval, isPaused, dispatch]);
+  }, [fuckerCount, babyCount, universalTimerInterval, isPaused, dispatch]);
 
   return (
     <div className="app-container">

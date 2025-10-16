@@ -7,7 +7,6 @@ interface CounterState {
   producerSperm: number;
   universalTimerInterval: number;
   isPaused: boolean;
-  currentPrice: number;
 }
 
 const initialState: CounterState = {
@@ -63,15 +62,6 @@ const initialState: CounterState = {
     } catch (error) {
       console.log('Error loading isPaused from localStorage:', error);
       return false;
-    }
-  })(),
-  currentPrice: (() => {
-    try {
-      const savedValue = localStorage.getItem('currentPrice');
-      return savedValue ? parseInt(savedValue, 10) : 5;
-    } catch (error) {
-      console.log('Error loading currentPrice from localStorage:', error);
-      return 5;
     }
   })(),
 };
@@ -153,14 +143,6 @@ const counterSlice = createSlice({
         console.log('Error saving isPaused to localStorage:', error);
       }
     },
-    setCurrentPrice: (state, action: PayloadAction<number>) => {
-      state.currentPrice = Math.max(0, Math.min(10, Math.round(action.payload)));
-      try {
-        localStorage.setItem('currentPrice', state.currentPrice.toString());
-      } catch (error) {
-        console.log('Error saving currentPrice to localStorage:', error);
-      }
-    },
     resetAllValues: (state) => {
       state.babyCount = 0;
       state.fuckerCount = 0;
@@ -168,7 +150,6 @@ const counterSlice = createSlice({
       state.producerSperm = 0;
       state.universalTimerInterval = 1000;
       state.isPaused = false;
-      state.currentPrice = 5;
       try {
         localStorage.setItem('babyCount', '0');
         localStorage.setItem('fuckerCount', '0');
@@ -176,7 +157,6 @@ const counterSlice = createSlice({
         localStorage.setItem('producerSperm', '0');
         localStorage.setItem('universalTimerInterval', '1000');
         localStorage.setItem('isPaused', 'false');
-        localStorage.setItem('currentPrice', '5');
       } catch (error) {
         console.log('Error saving reset values to localStorage:', error);
       }
@@ -194,7 +174,6 @@ export const {
   setProducerSperm,
   setUniversalTimerInterval,
   setIsPaused,
-  setCurrentPrice,
   resetAllValues
 } = counterSlice.actions;
 export default counterSlice.reducer;
