@@ -21,4 +21,23 @@
   height: 100%;
 }
 
+/* Optional styling for gridlines and axes */
+.axis .tick text {
+  fill: #666;
+  font-size: 11px;
+}
+
+.gridline {
+  stroke: #d0d0d0;
+  stroke-width: 1;
+}
+
+.curve.demand {
+  stroke: #e5484d;
+}
+
+.curve.supply {
+  stroke: #30a46c;
+}
+
  

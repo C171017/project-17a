@@ -62,9 +62,9 @@ css/                    # Styling files
 ### Interactive Features
 - **Manual Production**: Click button to create babies (with cooldown)
 - **Automated Production**: Fuckers automatically produce babies
-- **Dynamic Pricing**: Draggable price controls on supply/demand graph
 - **Resource Management**: Visual representation of sperm distribution
 - **Timer Controls**: Adjustable speed and pause functionality
+- **Graph Visualization**: Basic coordinate system for future supply/demand curves
 
 ## 🎮 Game Controls
 
@@ -74,10 +74,10 @@ css/                    # Styling files
 - **Pause/Resume**: Control automated systems
 - **Timer Slider**: Adjust game speed (100ms - 5000ms)
 
-### Interactive Graph
-- **Price Control**: Drag red dot on Y-axis to set price (0-10)
-- **Fucker Control**: Drag green dot on X-axis to set Fucker count (0-10)
-- **Real-time Updates**: Graph updates automatically with economic changes
+### Graph Visualization
+- **Coordinate System**: X and Y axes intersecting at bottom-left corner
+- **Responsive Design**: Scales proportionally with grid cell size
+- **SVG Rendering**: Built with D3.js for future interactive features
 
 ## 🔧 Development
 
@@ -146,13 +146,14 @@ The interface uses a CSS Grid layout with 5 columns and 2 rows:
 
 The game is in active development with focus on:
 - Economic concept integration
-- Interactive supply/demand visualization
+- Basic graph visualization foundation (axes implemented)
 - Automated production systems
 - Resource management mechanics
 
 ## 🚧 Known Issues & Future Work
 
-- Supply curve visualization needs refinement
+- Interactive supply/demand curves not yet implemented
+- Price and quantity controls need to be added to graph
 - Additional economic concepts to be integrated
 - Enhanced UI/UX improvements
 - More complex trading mechanics
