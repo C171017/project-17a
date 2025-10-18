@@ -56,13 +56,18 @@ css/                    # Styling files
 ### Economic Model
 - **Demand Curve**: y = -x + 10 (Price vs Quantity)
 - **Supply Curve**: y = x (Linear relationship)
-- **Trading System**: Automatic conversion between resources
-- **Cost Structure**: Linear cost progression for Fuckers (1+2+3+...+n)
-- **Graph Visualization**: Dynamic supply/demand curves with responsive scaling
+- **Interactive Trading**: Y-axis slider for baby price selection
+- **Trade Mechanics**: Exchange babies for producer sperm based on economic principles
+- **Production Mechanism**: X-axis slider for worker hiring with triangle-area calculations
+- **Production Cost**: Triangle area = (x_prod × x_prod) / 2 sperm transfer
+- **Graph Visualization**: Dynamic supply/demand curves with interactive trade and production controls
 
 ### Interactive Features
 - **Manual Production**: Click button to create babies (with cooldown)
-- **Automated Production**: Fuckers automatically produce babies
+- **Automated Production**: X-axis slider controls worker hiring with triangle-area calculations
+- **Interactive Trading**: Drag y-axis slider to set baby prices and execute trades
+- **Production Control**: Drag x-axis slider to hire workers and execute production
+- **Smart Default Position**: Trade slider starts at demand curve's y-intercept (maximum price)
 - **Resource Management**: Visual representation of sperm distribution
 - **Timer Controls**: Adjustable speed and pause functionality
 
@@ -76,11 +81,16 @@ css/                    # Styling files
 
 ### Graph Visualization
 - **Dynamic Supply/Demand Curves**: Real-time rendering of economic relationships
+- **Interactive Trade Controls**: Draggable y-axis slider for baby price selection
+- **Interactive Production Controls**: Draggable x-axis slider for worker hiring
+- **Smart Default Position**: Trade slider starts at demand curve's y-intercept (maximum price)
+- **Visual Trade Guides**: Real-time horizontal and vertical guides showing trade geometry
+- **Visual Production Guides**: Real-time vertical guides showing triangle area calculations
 - **First Quadrant Focus**: All curves displayed for positive economic values only
 - **Responsive Scaling**: Automatically adjusts to container size with dynamic tick generation
 - **Positioning Rules**: Demand intercepts positioned at 10% from top/right edges
 - **Shared Scales**: Consistent units across both curves for accurate comparison
-- **Interactive Design**: Built with D3.js for future Redux-driven parameter updates
+- **Interactive Design**: Built with D3.js for Redux-driven parameter updates
 
 ## 🔧 Development
 
@@ -121,7 +131,8 @@ The game automatically saves progress to localStorage:
 - Consumer/Producer sperm
 - Timer settings
 - Pause state
-- Current price
+- Trade price choice
+- Production worker count
 
 ## 🎨 UI Layout
 
@@ -139,28 +150,45 @@ The interface uses a CSS Grid layout with 5 columns and 2 rows:
 ## 🔄 Game Loop
 
 1. **Manual Production**: Player clicks "Fuck" button to create babies
-2. **Automated Production**: Fuckers consume Producer Sperm to create babies
-3. **Trading System**: Automatic conversion of Consumer Sperm + Babies → Producer Sperm
-4. **Economic Modeling**: Supply/demand curves determine optimal production levels
-5. **Resource Visualization**: Square component shows sperm distribution
-6. **Real-time Updates**: All systems update based on timer interval
+2. **Interactive Trading**: Player sets baby prices via y-axis slider
+3. **Trade Execution**: Automatic exchange of babies for producer sperm based on economic principles
+4. **Interactive Production**: Player sets worker hiring via x-axis slider
+5. **Production Execution**: Automatic worker hiring with triangle-area sperm transfer calculations
+6. **Economic Modeling**: Supply/demand curves determine optimal production and trading levels
+7. **Resource Visualization**: Square component shows sperm distribution
+8. **Real-time Updates**: All systems update based on timer interval
 
 ## 🎯 Current Development Status
 
 The game features a complete economic simulation with:
 - **Dynamic Graph Visualization**: Fully implemented supply/demand curves with responsive scaling
+- **Interactive Trade Mechanism**: Y-axis slider for baby price selection with automatic execution
+- **Interactive Production Mechanism**: X-axis slider for worker hiring with triangle-area calculations
 - **Economic Modeling**: Real-time curve rendering with mathematical accuracy
-- **Automated Production Systems**: Fuckers with linear cost progression
+- **Automated Production Systems**: Worker hiring with triangle-area sperm transfer mechanics
 - **Resource Management**: Visual sperm distribution and trading mechanics
 - **Interactive Controls**: Manual production, timer controls, and reset functionality
 
 ## 🚧 Known Issues & Future Work
 
-- **Redux Integration**: Connect graph curves to dynamic Redux state for real-time parameter updates
-- **Interactive Controls**: Add price and quantity controls to manipulate curve parameters
 - **Enhanced Economic Concepts**: Integrate more complex economic models and market dynamics
 - **UI/UX Improvements**: Enhanced visual feedback and user interaction patterns
 - **Advanced Trading Mechanics**: More sophisticated resource conversion and market simulation
+- **Performance Optimizations**: Further improvements to rendering and state management
+- **Production Efficiency**: Variable productivity per worker or advanced production curves
+
+## 📚 Documentation
+
+### Trade Mechanism
+- **Full Documentation**: `MD documents/trade-mechanism.md`
+- **Concise Reference**: `(Concise for AI)MD documents/trade-mechanism-concise.md`
+
+### Production Mechanism
+- **Full Documentation**: `MD documents/production-mechanism.md`
+- **Concise Reference**: `(Concise for AI)MD documents/production-mechanism-concise.md`
+
+### Graph Implementation
+- **Concise Reference**: `(Concise for AI)MD documents/graphconcise.md`
 
 ## 📝 License
 

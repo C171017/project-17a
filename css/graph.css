@@ -25,6 +25,11 @@
 .axis .tick text {
   fill: #666;
   font-size: 11px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: none;
 }
 
 .gridline {
@@ -38,6 +43,21 @@
 
 .curve.supply {
   stroke: #30a46c;
+}
+
+/* Trade slider dot styling */
+.trade-slider-dot {
+  transition: all 0.1s ease;
+}
+
+.trade-slider-dot:hover {
+  r: 8;
+}
+
+.trade-slider-dot.dragging {
+  r: 8;
+  opacity: 0.8;
+  stroke-width: 3;
 }
 
  
