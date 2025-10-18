@@ -40,10 +40,10 @@ const initialState: CounterState = {
   consumerSperm: (() => {
     try {
       const savedValue = localStorage.getItem('consumerSperm');
-      return savedValue ? parseInt(savedValue, 10) : 1000;
+      return savedValue ? parseInt(savedValue, 10) : 0;
     } catch (error) {
       console.log('Error loading consumer sperm from localStorage:', error);
-      return 1000;
+      return 0;
     }
   })(),
   producerSperm: (() => {
@@ -291,7 +291,7 @@ const counterSlice = createSlice({
     resetAllValues: (state) => {
       state.babyCount = 0;
       state.fuckerCount = 0;
-      state.consumerSperm = 1000;
+      state.consumerSperm = 0;
       state.producerSperm = 0;
       state.universalTimerInterval = 1000;
       state.isPaused = false;
@@ -300,7 +300,7 @@ const counterSlice = createSlice({
       try {
         localStorage.setItem('babyCount', '0');
         localStorage.setItem('fuckerCount', '0');
-        localStorage.setItem('consumerSperm', '1000');
+        localStorage.setItem('consumerSperm', '0');
         localStorage.setItem('producerSperm', '0');
         localStorage.setItem('universalTimerInterval', '1000');
         localStorage.setItem('isPaused', 'false');

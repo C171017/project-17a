@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { useAppSelector, useAppDispatch } from './store/hooks';
-import { executeTrade, executeProduction } from './store/counterSlice';
-import Button from "./components/Button";
+import { executeTrade, executeProduction, incrementBabyCount, incrementProducerSperm } from './store/counterSlice';
+import ActionButton from "./components/ActionButton";
 import Environment from "./components/Environment";
 import Text from "./components/Text";
 import Library from "./components/Library";
@@ -45,7 +45,14 @@ function AppContent() {
         <UniversalTimerControls />
       </div>
       <div className="controls-wrapper">
-        <Button />
+        <ActionButton 
+          label="Fuck" 
+          action={() => dispatch(incrementBabyCount())} 
+        />
+        <ActionButton 
+          label="Ejaculate" 
+          action={() => dispatch(incrementProducerSperm())} 
+        />
       </div>
       <Graph />
     </div>
