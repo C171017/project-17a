@@ -60,4 +60,19 @@
   stroke-width: 3;
 }
 
+/* Production slider dot styling */
+.production-slider-dot {
+  transition: all 0.1s ease;
+}
+
+.production-slider-dot:hover {
+  r: 8;
+}
+
+.production-slider-dot.dragging {
+  r: 8;
+  opacity: 0.8;
+  stroke-width: 3;
+}
+
  
